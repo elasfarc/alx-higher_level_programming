@@ -1,5 +1,4 @@
 #include "lists.h"
-#include <stddef.h>
 #include <stdlib.h>
 
 /**
@@ -59,15 +58,18 @@ int *convert_llist_to_array(listint_t **const head, size_t size)
  */
 int is_palindrome(listint_t **head)
 {
+	size_t size;
+	int left = 0, right, keep_going = 1, *arr;
+
 	if (!head)
 		return (0);
 	if (!(*head))
 		return (1);
 
-	size_t size = get_list_length(head);
-	int left = 0, right = size - 1, keep_going = 1, *arr;
-
+	size = get_list_length(head);
 	arr = convert_llist_to_array(head, size);
+	right = size - 1;
+
 	while (left <= right && keep_going)
 		if (arr[left++] != arr[right--])
 			keep_going = 0;
