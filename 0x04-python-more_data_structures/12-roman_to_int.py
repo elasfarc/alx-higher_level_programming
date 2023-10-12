@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 
 def roman_to_int(roman_string):
+    if not roman_string or not isinstance(roman_string, str):
+        return 0
+
     roman_nums = dict(I=1, V=5, X=10, L=50, C=100, D=500, M=1000)
     subcase = dict(I=('X', 'V'), X=('C', 'L'), C=('M', 'D'))
     num, idx, length = 0, 0, len(roman_string)
