@@ -1,0 +1,81 @@
+>>> add_int = __import__("0-add_integer").add_integer
+
+USAGE
+=====
+
+Numbers
+=======
+
+adding two positive numbers
+----------------------------
+>>> add_int(4, 5)
+9
+
+adding two negative numbers
+----------------------------
+
+>>> add_int(-1, -7)
+-8
+
+adding one negative number to a positive one
+--------------------------------------------
+
+>>> add_int(-4, 17)
+13
+
+
+adding float number to an int one
+--------------------------------------------
+
+* float is casted to an int before the addition
+>>> add_int(-4.5, 5)
+1
+
+
+calling with one argument
+--------------------------------------------
+* the second default is 98
+
+>>> add_int(100)
+198
+
+calling with no arguments should raise an error
+------------------------------------------------
+>>> add_int()
+Traceback (most recent call last):
+...
+TypeError: add_integer() missing 1 required positional argument: 'a'
+
+
+
+
+NOT NUMBERS
+============
+
+calling with non float or integer raise a TypeError
+--------------------------------------------------
+>>> add_int([] , 'k')
+Traceback (most recent call last):
+...
+TypeError: a must be an integer
+
+
+>>> add_int(4 , 'k')
+Traceback (most recent call last):
+...
+TypeError: b must be an integer
+
+
+>>> add_int(set([4]))
+Traceback (most recent call last):
+...
+TypeError: a must be an integer
+
+
+calling with NaN raises a TypeError
+------------------------------------
+>>> NaN = float('nan')
+>>> add_int(4, NaN)
+Traceback (most recent call last):
+...
+TypeError: b must be an integer
