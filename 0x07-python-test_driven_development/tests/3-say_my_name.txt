@@ -1,0 +1,51 @@
+>>> say_my_name = __import__("3-say_my_name").say_my_name
+
+===============
+Test Suite
+===============
+
+.. _test1:
+
+Test 1: Valid input with both first and last names
+-------------------------------------------------
+
+It checks if the function correctly combines and prints both first and last names
+with a space in between.
+
+>>> say_my_name("foo", "bar")
+My name is foo bar
+
+.. _test2:
+
+Test 2: Valid input with only a first name
+-------------------------------------------------
+
+It tests if the function handles the case where only a first name
+is provided and prints it.
+
+>>> say_my_name("foo")
+My name is foo 
+
+.. _test3:
+
+Test 3: Invalid input with an integer as the first name
+-------------------------------------------------
+
+It checks if the function raises a TypeError when the first name is not a string.
+
+>>> say_my_name(4, "foo")
+Traceback (most recent call last):
+...
+TypeError: first name must be a string
+
+.. _test4:
+
+Test 4: Invalid input with a list as the last name
+-------------------------------------------------
+
+It verifies if the function raises a TypeError when the last name is not a string.
+
+>>> say_my_name("foo", [])
+Traceback (most recent call last):
+...
+TypeError: last name must be a string
