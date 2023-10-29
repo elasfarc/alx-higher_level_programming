@@ -1,0 +1,132 @@
+>>> matrix_divided = __import__("2-matrix_divided").matrix_divided
+
+===============
+Test Suite
+===============
+
+This test suite is designed to check the functionality and error handling of the `matrix_divided` function.
+
+.. _test1:
+
+Test 1: Valid input with a matrix and a divisor
+-------------------------------------------------
+
+It checks if the function correctly divides each element of the matrix by the divisor and rounds the result to two decimal places.
+
+>>> matrix = [ [1, 2, 3], [4, 5, 6] ]
+>>> matrix_divided(matrix, 3)
+[[0.33, 0.67, 1.0], [1.33, 1.67, 2.0]]
+
+.. _test2:
+
+Test 2: Invalid input with a string as the matrix
+-------------------------------------------------
+
+It tests if the function correctly raises a TypeError when the input matrix is not a list of lists of integers or floats.
+
+>>> matrix = "hello"
+>>> matrix_divided(matrix, 3)
+Traceback (most recent call last):
+...
+TypeError: matrix must be a matrix (list of lists) of integers/floats
+
+.. _test3:
+
+Test 3: Invalid input with a flat list as the matrix
+-------------------------------------------------
+
+It checks if the function raises a TypeError when the input matrix doesn't meet the required format.
+
+>>> matrix = [5, 4, 7]
+>>> matrix_divided(matrix, 3)
+Traceback (most recent call last):
+...
+TypeError: matrix must be a matrix (list of lists) of integers/floats
+
+.. _test4:
+
+Test 4: Invalid input with a mixed data type matrix
+-------------------------------------------------
+
+It tests if the function raises a TypeError when the input matrix contains non-numeric values.
+
+>>> matrix = [[5, 12, 100], ["hello", "world", "ok"]]
+>>> matrix_divided(matrix, 3)
+Traceback (most recent call last):
+...
+TypeError: matrix must be a matrix (list of lists) of integers/floats
+
+.. _test5:
+
+Test 5: Invalid input with an uneven matrix
+-------------------------------------------------
+
+It checks if the function raises a TypeError when the input matrix does not have the same number of elements in each row.
+
+>>> matrix = [ [1, 3], [4, 5, 6] ]
+>>> matrix_divided(matrix, 3)
+Traceback (most recent call last):
+...
+TypeError: Each row of the matrix must have the same size
+
+.. _test6:
+
+Test 6: Valid input with an empty matrix
+-------------------------------------------------
+
+It ensures that the function handles empty matrices correctly by returning an empty list.
+
+>>> matrix = []
+>>> matrix_divided(matrix, 3)
+[]
+
+.. _test7:
+
+Test 7: Valid input with a matrix of empty rows
+-------------------------------------------------
+
+It verifies that the function correctly handles a matrix with empty rows by returning a matrix of empty rows.
+
+>>> matrix = [ [], [] ]
+>>> matrix_divided(matrix, 3)
+[[], []]
+
+.. _test8:
+
+Test 8: Invalid input with NaN values in the matrix
+-------------------------------------------------
+
+It checks if the function raises a TypeError when the matrix contains NaN values.
+
+>>> NaN = float('nan')
+>>> matrix = [ [NaN], [4] ]
+>>> matrix_divided(matrix, 3)
+Traceback (most recent call last):
+...
+TypeError: matrix must be a matrix (list of lists) of integers/floats
+
+.. _test9:
+
+Test 9: Invalid input with a string as the divisor
+-------------------------------------------------
+
+It tests if the function raises a TypeError when the divisor is not a number.
+
+>>> matrix = [ [1, 2, 3], [4, 5, 6] ]
+>>> matrix_divided(matrix, 'str')
+Traceback (most recent call last):
+...
+TypeError: div must be a number
+
+.. _test10:
+
+Test 10: Invalid input with the divisor of value zero
+-------------------------------------------------
+
+It tests if the function raises a ZeroDivisionError when the divisor is ZERO.
+
+>>> matrix = [ [1, 2, 3], [4, 5, 6] ]
+>>> matrix_divided(matrix, 0)
+Traceback (most recent call last):
+...
+ZeroDivisionError: division by zero
