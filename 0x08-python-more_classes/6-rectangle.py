@@ -57,12 +57,21 @@ class Rectangle:
         self.__height = height
 
     def area(self):
+        """return the area of a rectangle"""
         return self.width * self.height
 
     def perimeter(self):
+        """return the perimeter of a rectangle"""
         return (self.width + self.height) * 2
 
     def __str__(self):
+        """
+        Return a string representation of a Rectangle object.
+
+        If either the width or height of the rectangle is 0,
+        an empty string is returned. Otherwise, a string is constructed by
+        creating rows of '#' characters, with each row separated by a newline
+        """
         s = ""
         if self.width == 0 or self.height == 0:
             return s
@@ -73,8 +82,11 @@ class Rectangle:
         return s
 
     def __repr__(self):
+        """Return a string representation that can be used to
+        recreate a Rectangle object."""
         return f"Rectangle({self.width}, {self.height})"
 
     def __del__(self):
+        """Destructor method for a Rectangle object."""
         Rectangle.number_of_instances -= 1
         print("Bye rectangle...")

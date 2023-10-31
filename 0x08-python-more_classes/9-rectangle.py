@@ -24,12 +24,12 @@ class Rectangle:
             rect_2 (Rectangle): The second Rectangle object to compare.
 
         Returns:
-            Rectangle: The Rectangle object that has an area greater
-            than or equal to the other Rectangle.
+            Rectangle: The Rectangle object that has an area
+            greater than or equal to the other Rectangle.
 
         Raises:
-            TypeError: If either `rect_1` or `rect_2`
-            is not an instance of Rectangle.
+            TypeError: If either `rect_1` or `rect_2` is not an
+            instance of Rectangle.
 
         Example:
             rect1 = Rectangle(3, 4)
@@ -44,6 +44,25 @@ class Rectangle:
             )
 
         return rect_1 if rect_1.area() >= rect_2.area() else rect_2
+
+    @classmethod
+    def square(cls, size=0):
+        """
+            Create a square Rectangle object with the given size.
+
+            This class method creates a square Rectangle object with the
+            specified size.
+            By default, it creates a square with a size of 0.
+
+            Args:
+                cls (class): The class (Rectangle) on which this method
+                is called.
+                size (int): The size of the square's sides. Default is 0.
+
+            Returns:
+                Rectangle: A new Rectangle object representing a square.
+        """
+        return cls(size, size)
 
     def __init__(self, width=0, height=0):
         """int the new rectangle instace
