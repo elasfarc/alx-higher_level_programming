@@ -1,5 +1,5 @@
 import unittest
-Rectangle = __import__("1-rectangle").Rectangle
+Rectangle = __import__("2-rectangle").Rectangle
 
 
 class test_rectangle(unittest.TestCase):
@@ -51,6 +51,17 @@ class test_rectangle(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             Rectangle(0, -4)
         self.assertEqual(str(e.exception), "height must be >= 0")
+
+    def test_area(self):
+        rec = Rectangle(10, 2)
+        self.assertEqual(rec.area(), 20)
+
+    def test_perimeter(self):
+        rec = Rectangle()
+        self.assertEqual(rec.perimeter(), 0)
+        rec.width = 20
+        rec.height = 10
+        self.assertEqual(rec.perimeter(), 60)
 
 
 if __name__ == "__main__":
