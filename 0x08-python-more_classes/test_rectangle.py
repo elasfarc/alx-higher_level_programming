@@ -1,5 +1,5 @@
 import unittest
-Rectangle = __import__("2-rectangle").Rectangle
+Rectangle = __import__("3-rectangle").Rectangle
 
 
 class test_rectangle(unittest.TestCase):
@@ -62,6 +62,14 @@ class test_rectangle(unittest.TestCase):
         rec.width = 20
         rec.height = 10
         self.assertEqual(rec.perimeter(), 60)
+
+    def test_print(self):
+        rec = Rectangle(10, 3)
+        res = """##########\n##########\n##########"""
+        self.assertEqual(str(rec), res)
+
+        rec = Rectangle()
+        self.assertEqual(str(rec), "")
 
 
 if __name__ == "__main__":
