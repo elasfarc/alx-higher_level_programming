@@ -24,7 +24,7 @@ It tests if the function handles the case where only a first name
 is provided and prints it.
 
 >>> say_my_name("foo")
-My name is foo
+My name is foo 
 
 .. _test3:
 
