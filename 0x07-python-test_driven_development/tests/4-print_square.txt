@@ -25,7 +25,7 @@ Test 3: Invalid input with a negative integer size.
 >>> print_square(-6)
 Traceback (most recent call last):
 ...
-ValueError: size must be >=0
+ValueError: size must be >= 0
 
 Test 4: Invalid input with a float size.
 - It checks if the function raises a TypeError when the size is provided as a floating-point number.
