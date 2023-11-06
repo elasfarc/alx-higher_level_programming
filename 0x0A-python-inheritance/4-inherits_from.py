@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+"""define inherits_from(...)
+"""
 
 
 def inherits_from(obj: object, a_class: type) -> bool:
