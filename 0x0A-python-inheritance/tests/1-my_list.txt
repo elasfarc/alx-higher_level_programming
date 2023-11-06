@@ -1,0 +1,38 @@
+=====================
+    MyList Tests
+=====================
+
+:import: Import the MyList class from the "1-my_list" module.
+>>> MyList = __import__("1-my_list").MyList
+
+:base_class: Get the base class of MyList and confirm that it is derived from the "list" class.
+>>> (parent, ) = MyList.__bases__
+>>> parent.__name__
+'list'
+
+:attribute: Verify the presence of the "print_sorted" attribute in the MyList class.
+>>> "print_sorted" in dir(MyList)
+True
+
+:instance_mylist: Create an instance of MyList and check if it's an instance of MyList.
+>>> my_list = MyList()
+>>> isinstance(my_list, MyList)
+True
+
+:instance_list: Check if the my_list instance is also an instance of the "list" class.
+>>> isinstance(my_list, list)
+True
+
+:instance_attribute: Confirm that the "print_sorted" attribute is available in the my_list instance.
+>>> "print_sorted" in dir(my_list)
+True
+
+:sort_and_print: Add elements to the my_list instance using extend and then call the "print_sorted" method.
+:The expected output is the sorted list of numbers.
+>>> my_list.extend([4, 85, 0, 7, 10, -5, -100])
+>>> my_list.print_sorted()
+[-100, -5, 0, 4, 7, 10, 85]
+
+:print_sorted: The `print_sorted` method does not modify the original list.
+>>> my_list
+[4, 85, 0, 7, 10, -5, -100]
