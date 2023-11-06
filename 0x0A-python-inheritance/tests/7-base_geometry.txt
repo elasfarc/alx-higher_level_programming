@@ -1,0 +1,19 @@
+>>> BaseGeometry = __import__("7-base_geometry").BaseGeometry
+
+>>> all([method in dir(BaseGeometry) for method in ['area', 'integer_validator']])
+True
+
+>>> bg = BaseGeometry()
+>>> bg.integer_validator('my_int', 5) #doctest +ELLIPSIS
+...
+
+
+>>> bg.integer_validator('my_int', "str")
+Traceback (most recent call last):
+...
+TypeError: my_int must be an integer
+
+>>> bg.integer_validator('my_int', 0)
+Traceback (most recent call last):
+...
+ValueError: my_int must be greater than 0
