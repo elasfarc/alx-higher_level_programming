@@ -13,7 +13,7 @@ class BaseGeometry:
         """
         raise Exception("area() is not implemented")
 
-    def integer_validator(self, name, value):
+    def integer_validator(self, name, value) -> None:
         """Public instance method integer_validator
         validates the value of the integer
 
