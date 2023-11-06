@@ -2,6 +2,7 @@
 """define MyList class
 """
 
+
 class MyList(list):
     """class MyList that inherits from list
     """
@@ -9,7 +10,4 @@ class MyList(list):
         """
         prints the list, sorted in ascending order
         """
-        temp = self[:]
-        temp.sort()
-        print(temp)
-        del temp
+        print(sorted(self))
