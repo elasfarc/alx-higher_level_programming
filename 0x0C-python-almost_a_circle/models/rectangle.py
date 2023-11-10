@@ -3,6 +3,7 @@
 Module containing the Rectangle class
 """
 
+from typing import Any, Tuple
 from models.base import Base
 
 
@@ -28,6 +29,12 @@ class Rectangle(Base):
             id (int or None): An optional parameter representing the ID.
         """
         super(Rectangle, self).__init__(id)
+
+        list(map(
+            lambda item: Rectangle.validate(item),
+            {"width": width, "height": height, "x": x, "y": y}.items()
+        ))
+
         self.width = width
         self.height = height
         self.x = x
@@ -72,6 +79,7 @@ class Rectangle(Base):
         Returns:
             None
         """
+        Rectangle.validate(("width", width))
         self.__width = width
 
     @height.setter
@@ -85,6 +93,7 @@ class Rectangle(Base):
         Returns:
             None
         """
+        Rectangle.validate(("height", height))
         self.__height = height
 
     @x.setter
@@ -98,6 +107,7 @@ class Rectangle(Base):
         Returns:
             None
         """
+        Rectangle.validate(("x", x))
         self.__x = x
 
     @y.setter
@@ -111,4 +121,33 @@ class Rectangle(Base):
         Returns:
             None
         """
+        Rectangle.validate(("y", y))
         self.__y = y
+
+    @staticmethod
+    def validate(item: Tuple[str, Any]):
+        """
+         Validate the specified key-value pair.
+
+         Args:
+             item (Tuple[str, Any]): A tuple representing a key-value pair,
+             where the first element is the key (a string) and the second
+             element is the value (of any type).
+
+         Raises:
+             TypeError: If the value is not an integer.
+             ValueError: If the value is not within the specified range for the
+                 corresponding key.
+
+         Returns:
+             None
+         """
+        key, value = item
+        if type(value) is not int:
+            raise TypeError(f"{key} must be an integer")
+
+        if value <= 0 and key in ["width", "height"]:
+            raise ValueError(f"{key} must be > 0")
+
+        if value < 0 and key in ["x", "y"]:
+            raise ValueError(f"{key} must be >= 0")
