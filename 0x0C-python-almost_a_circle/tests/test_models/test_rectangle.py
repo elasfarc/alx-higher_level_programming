@@ -69,3 +69,7 @@ class Test_Rectangle(unittest.TestCase):
 
         rec = Rectangle(5, 45, 0, 0)
         self.assertEqual(rec.y, 0)
+
+    def test_area(self):
+        rectangle = Rectangle(5, 10, 2, 3, 1)
+        assert rectangle.area() == 50

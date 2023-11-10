@@ -124,6 +124,14 @@ class Rectangle(Base):
         Rectangle.validate(("y", y))
         self.__y = y
 
+
+    def area(self):
+        """calculate the rectangle area
+
+        Return: the rectangle area
+        """
+        return self.width * self.height
+
     @staticmethod
     def validate(item: Tuple[str, Any]):
         """
