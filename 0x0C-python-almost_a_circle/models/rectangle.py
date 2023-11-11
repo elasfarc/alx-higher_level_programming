@@ -149,6 +149,12 @@ class Rectangle(Base):
         for row in range(self.height):
             print(disp_char * self.width)
 
+    def __str__(self) -> str:
+        cls = self.__class__.__name__
+        return f"""\
+        [{cls}] ({self.id}) {self.x}/{self.y} - {self.width}/{self.height}\
+        """.strip()
+
     @staticmethod
     def validate(item: Tuple[str, Any]):
         """

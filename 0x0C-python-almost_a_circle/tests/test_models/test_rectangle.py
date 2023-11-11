@@ -1,3 +1,4 @@
+from os import execv
 import unittest
 from unittest.mock import patch
 from io import StringIO
@@ -7,6 +8,9 @@ from models.rectangle import Rectangle
 
 
 class Test_Rectangle(unittest.TestCase):
+    def setUp(self) -> None:
+        Base._Base__nb_objects = 0
+
     def test_rectangle_base(self):
         self.assertTrue(Base in Rectangle.__bases__)
 
@@ -86,3 +90,12 @@ class Test_Rectangle(unittest.TestCase):
             output = mock_stdout.getvalue()
 
         self.assertEqual(output, expected)
+
+    def test_string_representation(self):
+        r1 = Rectangle(4, 6, 2, 1, 12)
+        r2 = Rectangle(5, 5, 1)
+        expected = "[Rectangle] (12) 2/1 - 4/6"
+        expected2 = "[Rectangle] (1) 1/0 - 5/5"
+
+        self.assertEqual(str(r1), expected)
+        self.assertEqual(str(r2), expected2)
