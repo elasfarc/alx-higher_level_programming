@@ -1,4 +1,7 @@
 import unittest
+from unittest.mock import patch
+from io import StringIO
+
 from models.base import Base
 from models.rectangle import Rectangle
 
@@ -73,3 +76,13 @@ class Test_Rectangle(unittest.TestCase):
     def test_area(self):
         rectangle = Rectangle(5, 10, 2, 3, 1)
         assert rectangle.area() == 50
+
+    def test_display(self):
+        rec = Rectangle(5, 5)
+        expected = "#####\n" * 5
+
+        with patch("sys.stdout", new_callable=StringIO) as mock_stdout:
+            rec.display()
+            output = mock_stdout.getvalue()
+
+        self.assertEqual(output, expected)

@@ -124,13 +124,30 @@ class Rectangle(Base):
         Rectangle.validate(("y", y))
         self.__y = y
 
-
     def area(self):
         """calculate the rectangle area
 
         Return: the rectangle area
         """
         return self.width * self.height
+
+    def display(self):
+        """
+        Display a rectangle pattern using a specified character.
+
+        The rectangle pattern is constructed by repeating the specified
+        character horizontally and vertically based on the width and height
+        attributes of the Rectangle object.
+
+        Args:
+            None
+
+        Returns:
+            None
+        """
+        disp_char = '#'
+        for row in range(self.height):
+            print(disp_char * self.width)
 
     @staticmethod
     def validate(item: Tuple[str, Any]):
