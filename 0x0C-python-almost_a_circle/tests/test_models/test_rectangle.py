@@ -88,7 +88,27 @@ class Test_Rectangle(unittest.TestCase):
         with patch("sys.stdout", new_callable=StringIO) as mock_stdout:
             rec.display()
             output = mock_stdout.getvalue()
+        self.assertEqual(output, expected)
 
+        rec = Rectangle(2, 3, 2, 2)
+        expected = "\n\n" + "  ##\n" * 3
+        with patch("sys.stdout", new_callable=StringIO) as mock_stdout:
+            rec.display()
+            output = mock_stdout.getvalue()
+        self.assertEqual(output, expected)
+
+        rec = Rectangle(1, 2, 0, 4)
+        expected = "\n\n\n\n" + "#\n" * 2
+        with patch("sys.stdout", new_callable=StringIO) as mock_stdout:
+            rec.display()
+            output = mock_stdout.getvalue()
+        self.assertEqual(output, expected)
+
+        rec = Rectangle(1, 2, 5, 0)
+        expected = ((" " * 5) + "#\n") * 2
+        with patch("sys.stdout", new_callable=StringIO) as mock_stdout:
+            rec.display()
+            output = mock_stdout.getvalue()
         self.assertEqual(output, expected)
 
     def test_string_representation(self):

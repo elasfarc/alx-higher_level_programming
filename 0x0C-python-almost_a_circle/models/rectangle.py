@@ -146,10 +146,19 @@ class Rectangle(Base):
             None
         """
         disp_char = '#'
+        for _ in range(self.y):
+            print("")
         for row in range(self.height):
+            print( ' * self.x, end="")
             print(disp_char * self.width)
 
     def __str__(self) -> str:
+        """
+        Return a string representation of the object.
+
+        Returns:
+            str: A string representation of the object.
+        """
         cls = self.__class__.__name__
         return f"""\
         [{cls}] ({self.id}) {self.x}/{self.y} - {self.width}/{self.height}\
