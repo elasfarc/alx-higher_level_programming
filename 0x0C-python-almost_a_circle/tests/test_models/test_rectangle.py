@@ -6,6 +6,8 @@ from io import StringIO
 from models.base import Base
 from models.rectangle import Rectangle
 
+import sys
+
 
 class Test_Rectangle(unittest.TestCase):
     def setUp(self) -> None:
@@ -119,3 +121,50 @@ class Test_Rectangle(unittest.TestCase):
 
         self.assertEqual(str(r1), expected)
         self.assertEqual(str(r2), expected2)
+
+    def test_update_instance_valid_attributes(self):
+        r1 = Rectangle(10, 10, 10, 10)
+        self.assertEqual(str(r1), "[Rectangle] (1) 10/10 - 10/10")
+        r1.update()
+        self.assertEqual(str(r1), "[Rectangle] (1) 10/10 - 10/10")
+
+        r1.update(89)
+        self.assertEqual(str(r1), "[Rectangle] (89) 10/10 - 10/10")
+
+        r1.update(89, 2)
+        self.assertEqual(str(r1), "[Rectangle] (89) 10/10 - 2/10")
+
+        r1.update(89, 2, 3)
+        self.assertEqual(str(r1), "[Rectangle] (89) 10/10 - 2/3")
+
+        r1.update(89, 2, 3, 4)
+        self.assertEqual(str(r1), "[Rectangle] (89) 4/10 - 2/3")
+
+        r1.update(89, 2, 3, 4, 5)
+        self.assertEqual(str(r1), "[Rectangle] (89) 4/5 - 2/3")
+
+    def test_update_instance_invalid_attributes(self):
+        r1 = Rectangle(10, 10, 10, 10)
+        self.assertEqual(str(r1), "[Rectangle] (1) 10/10 - 10/10")
+
+        r1.update(89)
+        self.assertEqual(str(r1), "[Rectangle] (89) 10/10 - 10/10")
+
+        with self.assertRaises(ValueError) as e:
+            r1.update(89, -2)
+        self.assertEqual(str(e.exception), "width must be > 0")
+
+        with self.assertRaises(TypeError) as e:
+            r1.update(70, 20, [])
+        self.assertEqual(str(e.exception), "height must be an integer")
+
+        with self.assertRaises(ValueError) as e:
+            r1.update(70, 20, 5, -2)
+        self.assertEqual(str(e.exception), "x must be >= 0")
+
+    def test_update_instance_number_of_args(self):
+        r1 = Rectangle(10, 10, 10, 10)
+        self.assertEqual(str(r1), "[Rectangle] (1) 10/10 - 10/10")
+
+        r1.update(12, 5, 12, 20, 4, "ignored", 1000, [])
+        self.assertEqual(str(r1), "[Rectangle] (12) 20/4 - 5/12")

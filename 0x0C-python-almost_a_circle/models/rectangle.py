@@ -149,8 +149,31 @@ class Rectangle(Base):
         for _ in range(self.y):
             print("")
         for row in range(self.height):
-            print( ' * self.x, end="")
+            print(" " * self.x, end="")
             print(disp_char * self.width)
+
+    def update(self, *args):
+        """
+        Update attributes of the object with values provided in the arguments.
+
+        The order of attributes is determined by the following list:
+        ["id", "width", "height", "x", "y"]. If there are more arguments than
+        attributes, the excess arguments are ignored.
+
+        Args:
+            *args: Positional arguments representing values to
+                update the object's attributes
+                in the order ["id", "width", "height", "x", "y"].
+
+        Returns:
+            None
+        """
+        attributes = ["id", "width", "height", "x", "y"]
+        for idx, value in enumerate(args):
+            if idx >= len(attributes):
+                break
+            attribute = attributes[idx]
+            setattr(self, attribute, value)
 
     def __str__(self) -> str:
         """
@@ -183,6 +206,7 @@ class Rectangle(Base):
              None
          """
         key, value = item
+
         if type(value) is not int:
             raise TypeError(f"{key} must be an integer")
 
