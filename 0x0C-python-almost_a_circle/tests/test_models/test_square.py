@@ -35,3 +35,20 @@ class Test_Square(unittest.TestCase):
         with self.assertRaises(TypeError) as e:
             rec = Square(4, x="2", y=4)
         self.assertEqual(str(e.exception), "x must be an integer")
+
+    def test_string_rEpresentation(self):
+        sq = Square(12, 5, 5, 78)
+        self.assertEqual(str(sq), "[Square] (78) 5/5 - 12")
+
+    def test_size_geeter_setter(self):
+        sq = Square(2)
+        self.assertEqual(sq.size, 2)
+
+        sq.size = 15
+        self.assertEqual(sq.size, 15)
+        self.assertEqual(sq.width, 15)
+        self.assertEqual(sq.height, 15)
+
+        with self.assertRaises(TypeError) as err:
+            sq.size = [12]
+        self.assertEqual(str(err.exception), "width must be an integer")
