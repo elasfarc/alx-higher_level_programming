@@ -188,6 +188,8 @@ class Rectangle(Base):
         else:
             for key, value in kwargs.items():
                 if key in attributes:
+                    if key == "id":
+                        Rectangle.validate((key, value))
                     setattr(self, key, value)
                 else:
                     raise AttributeError(

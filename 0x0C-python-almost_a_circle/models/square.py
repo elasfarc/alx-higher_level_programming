@@ -44,6 +44,27 @@ class Square(Rectangle):
         self.width = size
         self.height = size
 
+    def update(self, *args, **kwargs):
+        attributes = ["id", "size", "x", "y"]
+        if args:
+            for idx, value in enumerate(args):
+                if idx >= len(attributes):
+                    break
+                attribute = attributes[idx]
+                if (attribute == "id"):
+                    Square.validate((attribute, value))
+                setattr(self, attribute, value)
+        else:
+            for key, value in kwargs.items():
+                if key in attributes:
+                    if key == "id":
+                        Square.validate((key, value))
+                    setattr(self, key, value)
+                else:
+                    raise AttributeError(
+                        f"'Square' object has no attribute '{key}'"
+                    )
+
     def __str__(self):
         """
         Returns a string representation of the Square object.
