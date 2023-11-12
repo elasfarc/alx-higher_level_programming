@@ -152,28 +152,47 @@ class Rectangle(Base):
             print(" " * self.x, end="")
             print(disp_char * self.width)
 
-    def update(self, *args):
+    def update(self, *args, **kwargs):
         """
-        Update attributes of the object with values provided in the arguments.
+            Update attributes of the object with values provided in the
+            arguments.
 
-        The order of attributes is determined by the following list:
-        ["id", "width", "height", "x", "y"]. If there are more arguments than
-        attributes, the excess arguments are ignored.
+            The method accepts both positional arguments (*args) and
+            keyword arguments (**kwargs) to update specific attributes of
+            the object. If positional arguments are provided,
+            (**kwargs) are ignored and the order of attributes is the following
+            list: ["id", "width", "height", "x", "y"].
+            If there are more positional arguments than attributes,
+            the excess arguments are ignored. For each "id" attribute provided,
+            the method validates it using the Rectangle class's validate method
 
-        Args:
-            *args: Positional arguments representing values to
-                update the object's attributes
-                in the order ["id", "width", "height", "x", "y"].
+            Args:
+                *args: Positional arguments representing values to update
+                    the object's attributes in the order
+                    ["id", "width", "height", "x", "y"].
+                **kwargs: Keyword arguments representing attribute-value pairs
+                    to update the object.
 
-        Returns:
-            None
-        """
+            Returns:
+                None
+            """
         attributes = ["id", "width", "height", "x", "y"]
-        for idx, value in enumerate(args):
-            if idx >= len(attributes):
-                break
-            attribute = attributes[idx]
-            setattr(self, attribute, value)
+        if args:
+            for idx, value in enumerate(args):
+                if idx >= len(attributes):
+                    break
+                attribute = attributes[idx]
+                if (attribute == "id"):
+                    Rectangle.validate((attribute, value))
+                setattr(self, attribute, value)
+        else:
+            for key, value in kwargs.items():
+                if key in attributes:
+                    setattr(self, key, value)
+                else:
+                    raise AttributeError(
+                        f"'Rectangle' object has no attribute '{key}'"
+                    )
 
     def __str__(self) -> str:
         """

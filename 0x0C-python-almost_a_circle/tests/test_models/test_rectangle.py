@@ -168,3 +168,38 @@ class Test_Rectangle(unittest.TestCase):
 
         r1.update(12, 5, 12, 20, 4, "ignored", 1000, [])
         self.assertEqual(str(r1), "[Rectangle] (12) 20/4 - 5/12")
+
+        with self.assertRaises(TypeError) as err:
+            r1.update(None)
+        self.assertEqual(str(err.exception), "id must be an integer")
+
+    def test_update_key_worded_arguments(self):
+        r1 = Rectangle(10, 10, 10, 10)
+
+        r1.update()
+        self.assertEqual(str(r1), "[Rectangle] (1) 10/10 - 10/10")
+
+        r1.update(width=5)
+        assert r1.width == 5
+
+        r1.update(width=12, id=4)
+        assert r1.width == 12
+        assert r1.id == 4
+        assert r1.height == 10
+
+        r1.update(id=5, width=4, y=12)
+        self.assertEqual(str(r1), "[Rectangle] (5) 10/12 - 4/10")
+
+        r1.update(1000, id=5)
+        assert r1.id == 1000
+
+        with self.assertRaises(TypeError) as err:
+            r1.height = "100"
+        self.assertEqual(str(err.exception), "height must be an integer")
+
+        with self.assertRaises(AttributeError) as err:
+            r1.update(ok=12)
+        self.assertEqual(
+            str(err.exception),
+            "'Rectangle' object has no attribute 'ok'"
+        )
