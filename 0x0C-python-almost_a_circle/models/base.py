@@ -3,7 +3,7 @@
 Module containing the Base class.
 """
 import json
-from typing import List
+from typing import List, Type, TypeVar
 
 
 class Base:
@@ -32,8 +32,71 @@ class Base:
 
     @staticmethod
     def to_json_string(list_dictionaries: List[dict] = []) -> str:
+        """
+        Converts a list of dictionaries to a JSON string.
+
+            Args:
+                list_dictionaries (List[dict], optional):
+                    A list of dictionaries. Defaults to [].
+
+            Raises:
+                TypeError: If list_dictionaries is not a list or
+                contains non-dictionary elements.
+
+            Returns:
+                str: A JSON string representation of the list of dictionaries.
+        """
         if type(list_dictionaries) is not list or not all(
             [type(element) is dict for element in list_dictionaries]
         ):
             raise TypeError("List of dictionaries")
         return json.dumps(list_dictionaries)
+
+    @staticmethod
+    def is_indirectly_Base(obj: object):
+        """
+        Checks if an object is an instance of a subclass of Base.
+
+            Args:
+                obj (object): An object to check.
+
+            Returns:
+                bool: True if the object is an instance of a subclass of Base,
+                False otherwise.
+        """
+        return isinstance(obj, Base) and obj.__class__ is not Base
+
+    T = TypeVar('T', bound='Base')
+
+    @classmethod
+    def save_to_file(cls, list_objs: List[T] = []):
+        """
+        Saves a list of instances of subclasses of Base to a JSON file.
+
+            Args:
+                list_objs (List[T], optional):
+                    A list of instances of subclasses of Base.
+                    Defaults to [].
+
+            Raises:
+                TypeError: If list_objs is not a list or
+                contains non-Base instances.
+
+            Writes:
+                A JSON file named after the class name,
+                containing the list of dictionaries representing the
+                attributes of each Base instance.
+        """
+
+        if type(list_objs) is not list or not all(
+            [Base.is_indirectly_Base(element) for element in list_objs]
+        ):
+            raise TypeError(
+                "@list_objs: list of instances who inherits of Base"
+            )
+
+        with open(cls.__name__ + ".json", "w", encoding="utf-8") as file:
+            dictionaries: List[dict[str, int]] = [
+                obj.to_dictionary() for obj in list_objs
+            ]
+            file.write(Base.to_json_string(dictionaries))
