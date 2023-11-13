@@ -2,6 +2,8 @@
 """
 Module containing the Base class.
 """
+import json
+from typing import List
 
 
 class Base:
@@ -27,3 +29,11 @@ class Base:
         else:
             Base.__nb_objects += 1
             self.id = Base.__nb_objects
+
+    @staticmethod
+    def to_json_string(list_dictionaries: List[dict] = []) -> str:
+        if type(list_dictionaries) is not list or not all(
+            [type(element) is dict for element in list_dictionaries]
+        ):
+            raise TypeError("List of dictionaries")
+        return json.dumps(list_dictionaries)
