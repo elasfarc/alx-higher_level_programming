@@ -115,6 +115,23 @@ class Test_Base(unittest.TestCase):
         self.assertEqual(list_output, [sq1, sq2])
         self.assertEqual(Base.from_json_string(), [])
 
+    def test_create_instance_from_dictionary(self):
+        r1 = Rectangle(3, 5, 1)
+        r1_dictionary = r1.to_dictionary()
+
+        r2 = Rectangle.create(**r1_dictionary)
+        assert str(r1) == str(r2)
+        # assert self.assertNotEqual(r1, r2)
+        assert r1 is not r2
+
+        with self.assertRaises(ValueError) as err:
+            create = Rectangle.create
+            create(**{"x": 2})
+        self.assertEqual(
+            str(err.exception),
+            "Rectangle must has a width and a height"
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

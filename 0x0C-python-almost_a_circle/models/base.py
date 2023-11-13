@@ -117,3 +117,29 @@ class Base:
                 obj.to_dictionary() for obj in list_objs
             ]
             file.write(Base.to_json_string(dictionaries))
+
+    @classmethod
+    def create(cls, **dictionary: dict[str, int]):
+        supported_classes = ["Rectangle", "Square"]
+        if not issubclass(cls, Base) or cls is Base:
+            raise TypeError(
+                "only support classes that inherhit from Base class"
+            )
+
+        if cls.__name__ not in supported_classes:
+            raise TypeError(f"class {cls.__name__} not supported")
+
+        if type(dictionary) is not dict:
+            raise TypeError("@dictionary: dict[str, int]")
+
+        if cls.__name__ == supported_classes[0]:
+            if "width" not in dictionary or "height" not in dictionary:
+                raise ValueError("Rectangle must has a width and a height")
+
+        if cls.__name__ == supported_classes[1]:
+            if "size" not in dictionary:
+                raise ValueError("Square must has a size")
+
+        obj = cls(1, 1) if cls.__name__ == "Rectangle" else cls(1)
+        obj.update(**dictionary)
+        return obj
