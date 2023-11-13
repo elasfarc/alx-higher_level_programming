@@ -65,6 +65,20 @@ class Square(Rectangle):
                         f"'Square' object has no attribute '{key}'"
                     )
 
+    def to_dictionary(self):
+        """
+        Convert a square object to a dictionary representation.
+
+        Returns:
+            A dictionary representing the square.
+        """
+        return {
+            "id": self.id,
+            "x": self.x,
+            "y": self.y,
+            "size": self.size,
+        }
+
     def __str__(self):
         """
         Returns a string representation of the Square object.

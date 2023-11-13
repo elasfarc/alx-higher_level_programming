@@ -137,3 +137,26 @@ class Test_Square(unittest.TestCase):
         with self.assertRaises(AttributeError) as e:
             r1.update(width=5)
         assert str(e.exception) == "'Square' object has no attribute 'width'"
+
+    def test_convert_rectangle_to_dict(self):
+        sq = Square(10, 2, 1, 9)
+        sq2 = Square(15, 5, 2, 7)
+        sq3 = Square(55, 74, id=44)
+
+        sq_dictionary = sq.to_dictionary()
+        sq2_dictionary = sq2.to_dictionary()
+
+        self.assertEqual(
+            sq_dictionary,
+            {"size": 10, "x": 2, "y": 1, "id": 9}
+        )
+        self.assertEqual(
+            sq3.to_dictionary(),
+            {"size": 55, "x": 74, "y": 0, "id": 44}
+        )
+
+        sq2.update(**sq_dictionary)
+        assert sq2.size == 10
+        assert sq2.x == 2
+        assert sq2.y == 1
+        assert sq2.id == 9
