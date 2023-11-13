@@ -45,6 +45,29 @@ class Square(Rectangle):
         self.height = size
 
     def update(self, *args, **kwargs):
+        """
+            Update attributes of the object with values provided in the
+            arguments.
+
+            The method accepts both positional arguments (*args) and
+            keyword arguments (**kwargs) to update specific attributes of
+            the object. If positional arguments are provided,
+            (**kwargs) are ignored and the order of attributes is the following
+            list: ["id","size", "x", "y"].
+            If there are more positional arguments than attributes,
+            the excess arguments are ignored. For each "id" attribute provided,
+            the method validates it using the Rectangle class's validate method
+
+            Args:
+                *args: Positional arguments representing values to update
+                    the object's attributes in the order
+                    ["id", "size", "x", "y"].
+                **kwargs: Keyword arguments representing attribute-value pairs
+                    to update the object.
+
+            Returns:
+                None
+            """
         attributes = ["id", "size", "x", "y"]
         if args:
             for idx, value in enumerate(args):
