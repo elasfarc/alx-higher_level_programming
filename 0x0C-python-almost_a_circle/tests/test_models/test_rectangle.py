@@ -203,3 +203,26 @@ class Test_Rectangle(unittest.TestCase):
             str(err.exception),
             "'Rectangle' object has no attribute 'ok'"
         )
+
+    def test_convert_rectangle_to_dict(self):
+        rec = Rectangle(10, 2, 1, 9)
+        rec2 = Rectangle(15, 5, 2, 7)
+        rec3 = Rectangle(55, 74, id=44)
+
+        rec_dictionary = rec.to_dictionary()
+        rec2_dictionary = rec2.to_dictionary()
+
+        self.assertEqual(
+            rec_dictionary,
+            {"width": 10, "height": 2, "x": 1, "y": 9, "id": 1}
+        )
+        self.assertEqual(
+            rec3.to_dictionary(),
+            {"width": 55, "height": 74, "x": 0, "y": 0, "id": 44}
+        )
+
+        rec2.update(**rec_dictionary)
+        assert rec2.width == 10
+        assert rec2.height == 2
+        assert rec2.x == 1
+        assert rec2.y == 9

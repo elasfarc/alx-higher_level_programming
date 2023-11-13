@@ -3,7 +3,7 @@
 Module containing the Rectangle class
 """
 
-from typing import Any, Tuple
+from typing import Any, Tuple, TypedDict
 from models.base import Base
 
 
@@ -195,6 +195,38 @@ class Rectangle(Base):
                     raise AttributeError(
                         f"'Rectangle' object has no attribute '{key}'"
                     )
+
+    class Rectangle_Dict(TypedDict):
+        """
+        A rectangle represented as a dictionary.
+
+        Attributes:
+            width (int): The width of the rectangle.
+            height (int): The height of the rectangle.
+            x (int): The x-coordinate of the top-left corner of the rectangle.
+            y (int): The y-coordinate of the top-left corner of the rectangle.
+            id (int): A unique identifier for the rectangle.
+        """
+        width: int
+        height: int
+        x: int
+        y: int
+        id: int
+
+    def to_dictionary(self) -> Rectangle_Dict:
+        """
+        Convert a rectangle object to a dictionary representation.
+
+        Returns:
+            Rectangle_Dict: A dictionary representing the rectangle.
+        """
+        return {
+            "id": self.id,
+            "width": self.width,
+            "height": self.height,
+            "x": self.x,
+            "y": self.y
+        }
 
     def __str__(self) -> str:
         """
