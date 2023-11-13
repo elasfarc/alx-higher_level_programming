@@ -3,7 +3,7 @@
 Module containing the Base class.
 """
 import json
-from typing import List, Type, TypeVar
+from typing import Dict, List, Type, TypeVar
 
 
 class Base:
@@ -53,7 +53,7 @@ class Base:
         return json.dumps(list_dictionaries)
 
     @staticmethod
-    def from_json_string(json_string: str = "") -> list[dict]:
+    def from_json_string(json_string: str = "") -> List[dict]:
         """
         Converts a JSON string to a list of dictionaries using the json.loads()
 
@@ -119,7 +119,7 @@ class Base:
             file.write(Base.to_json_string(dictionaries))
 
     @classmethod
-    def create(cls, **dictionary: dict[str, int]):
+    def create(cls, **dictionary: Dict[str, int]):
         supported_classes = ["Rectangle", "Square"]
         if not issubclass(cls, Base) or cls is Base:
             raise TypeError(
