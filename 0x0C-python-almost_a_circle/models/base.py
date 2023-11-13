@@ -53,6 +53,23 @@ class Base:
         return json.dumps(list_dictionaries)
 
     @staticmethod
+    def from_json_string(json_string: str = "") -> list[dict]:
+        """
+        Converts a JSON string to a list of dictionaries using the json.loads()
+
+        Args:
+            json_string (str, optional):
+                a string representing a list of dictionaries. Defaults to "".
+
+        Returns:
+            If json_string is None or empty, return an empty list
+            Otherwise, return the list represented by json_string
+        """
+        if not json_string:
+            return []
+        return json.loads(json_string)
+
+    @staticmethod
     def is_indirectly_Base(obj: object):
         """
         Checks if an object is an instance of a subclass of Base.

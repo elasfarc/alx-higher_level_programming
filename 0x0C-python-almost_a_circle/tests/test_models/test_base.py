@@ -105,6 +105,16 @@ class Test_Base(unittest.TestCase):
             "@list_objs: list of instances who inherits of Base"
         )
 
+    def test_from_json_string(self):
+        sq1 = Square(7).to_dictionary()
+        sq2 = Square(7, 12, 5, 22).to_dictionary()
+
+        json_list_input = Base.to_json_string([sq1, sq2])
+        list_output = Base.from_json_string(json_list_input)
+
+        self.assertEqual(list_output, [sq1, sq2])
+        self.assertEqual(Base.from_json_string(), [])
+
 
 if __name__ == "__main__":
     unittest.main()
