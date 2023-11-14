@@ -3,6 +3,7 @@
 Module containing the Base class.
 """
 import json
+from os import path
 from typing import Dict, List, Type, TypeVar
 
 
@@ -120,6 +121,33 @@ class Base:
 
     @classmethod
     def create(cls, **dictionary: Dict[str, int]):
+        """
+            Create an instance of the class with attributes
+            specified in the dictionary.
+            The dictionary should contain key-value pairs
+            representing attribute names and their corresponding values.
+
+            Args:
+                **dictionary (Dict[str, int]):
+                    A dictionary containing attribute-value pairs for
+                    initializing the object.
+
+            Returns:
+                Union['Rectangle', 'Square']:
+                    An instance of the class with attributes
+                    initialized based on the dictionary.
+
+            Raises:
+                TypeError: If the class is not a subclass of Base or
+                    is the Base class,
+                    or if the class is not one of the supported classes
+                    ('Rectangle' or 'Square').
+                TypeError: If the dictionary argument is not of type dict.
+                ValueError: If the class is 'Rectangle' and
+                    either 'width' or 'height' is missing.
+                ValueError: If the class is 'Square' and 'size' is missing.
+
+            """
         supported_classes = ["Rectangle", "Square"]
         if not issubclass(cls, Base) or cls is Base:
             raise TypeError(
@@ -143,3 +171,26 @@ class Base:
         obj = cls(1, 1) if cls.__name__ == "Rectangle" else cls(1)
         obj.update(**dictionary)
         return obj
+
+    @classmethod
+    def load_from_file(cls) -> List:
+        """
+            Load objects from a JSON file and create instances of the class.
+
+            This class method reads objects from a JSON file named after
+            the class, converts the JSON string to dictionaries,
+            and creates instances of the class using the dictionaries.
+
+            Returns:
+                List['Base']:
+                    A list of instances of the class loaded from the JSON file.
+                [] :
+                    empty list If the JSON file for the class does not exist.
+            """
+        file_name = cls.__name__ + ".json"
+        if not path.exists(file_name):
+            return []
+        with open(file_name, 'r', encoding="utf-8") as file:
+            json_str = file.read()
+        dicts = cls.from_json_string(json_str)
+        return [cls.create(**dic) for dic in dicts]

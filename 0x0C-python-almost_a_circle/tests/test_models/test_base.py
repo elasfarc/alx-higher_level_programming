@@ -132,6 +132,38 @@ class Test_Base(unittest.TestCase):
             "Rectangle must has a width and a height"
         )
 
+    def test_load_from_file_no_file(self):
+
+        mocked_file = mock_open()
+        with patch("os.path.exists", return_value=False):
+            result = Rectangle.load_from_file()
+        self.assertEqual(result, [])
+
+    c = [
+            {"width": 5, "height": 4, "x": 2},
+            {"width": 15, "height": 40, "y": 20},
+        ]
+
+    @patch("os.path.exists", return_value=True)
+    @patch("builtins.open", new_callable=mock_open, read_data=json.dumps(c))
+    @patch("models.base.Base.from_json_string", return_value=c)
+    @patch("models.base.Base.create", return_value=5)
+    def test_load_from_file(
+        self, mock_create, mock_from_json, mock_open, mock_exists
+    ):
+        res = Rectangle.load_from_file()
+
+        self.assertEqual(len(res), 2)
+        mock_exists.assert_called_once_with('Rectangle.json')
+        mock_open.assert_called_once_with(
+            'Rectangle.json', 'r', encoding='utf-8'
+        )
+        mock_from_json.assert_called_once_with(
+            '[{"width": 5, "height": 4, "x": 2},\
+            {"width": 15, "height": 40, "y": 20}]'
+        )
+        mock_create.assert_called_with(width=15, height=40, y=20)
+
 
 if __name__ == "__main__":
     unittest.main()
