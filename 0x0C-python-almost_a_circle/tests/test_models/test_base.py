@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch, mock_open
+from unittest.mock import patch, mock_open, call
 import json
 from models.base import Base
 from models.rectangle import Rectangle
@@ -147,7 +147,7 @@ class Test_Base(unittest.TestCase):
     @patch("os.path.exists", return_value=True)
     @patch("builtins.open", new_callable=mock_open, read_data=json.dumps(c))
     @patch("models.base.Base.from_json_string", return_value=c)
-    @patch("models.base.Base.create", return_value=5)
+    @patch("models.base.Base.create")
     def test_load_from_file(
         self, mock_create, mock_from_json, mock_open, mock_exists
     ):
@@ -159,10 +159,28 @@ class Test_Base(unittest.TestCase):
             'Rectangle.json', 'r', encoding='utf-8'
         )
         mock_from_json.assert_called_once_with(
-            '[{"width": 5, "height": 4, "x": 2},\
-            {"width": 15, "height": 40, "y": 20}]'
+            '[{"width": 5, "height": 4, "x": 2}, '
+            '{"width": 15, "height": 40, "y": 20}]'
         )
         mock_create.assert_called_with(width=15, height=40, y=20)
+
+    @patch("builtins.open", new_callable=mock_open)
+    def test_save_csv(self, mock_open):
+        r1 = Rectangle(10, 7, 2, 8)
+        r2 = Rectangle(2, 4)
+        list_rectangles_input = [r1, r2]
+
+        Rectangle.save_to_file_csv(list_rectangles_input)
+
+        mock_open.assert_called_once_with(
+            "Rectangle.csv", 'w', encoding='utf-8', newline=''
+        )
+        calls = [
+            call('id,width,height,x,y\r\n'),
+            call('1,10,7,2,8\r\n'),
+            call('2,2,4,0,0\r\n'),
+        ]
+        mock_open().write.assert_has_calls(calls)
 
 
 if __name__ == "__main__":

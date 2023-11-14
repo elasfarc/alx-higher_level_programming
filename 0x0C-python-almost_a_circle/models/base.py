@@ -3,8 +3,43 @@
 Module containing the Base class.
 """
 import json
+import csv
 from os import path
-from typing import Dict, List, Type, TypeVar
+from typing import Dict, List, Protocol, Type, TypeVar
+
+
+class DirivedFromBase_Virtual(Protocol):
+    """
+        Protocol defining virtual methods for a class derived from Base.
+
+        This protocol defines virtual methods that should be implemented by
+        a class derived from the Base class.
+        The methods include 'to_dictionary', which should return a dictionary
+        representation of the object, and 'update', which is meant to update
+        the object based on certain criteria.
+
+        Methods:
+        --------
+        to_dictionary() -> Dict[str, int]:
+            Return a dictionary representation of the object.
+
+        update():
+            Update the object based on certain criteria.
+            This method should be implemented by classes derived from Base.
+
+    """
+    def to_dictionary(self) -> Dict[str, int]:
+        """Return a dictionary representation of the object.
+        """
+        return {}
+
+    def update(self):
+        """Update the object based on certain criteria.
+        """
+        pass
+
+
+T = TypeVar('T', bound='DirivedFromBase_Virtual')
 
 
 class Base:
@@ -84,8 +119,6 @@ class Base:
         """
         return isinstance(obj, Base) and obj.__class__ is not Base
 
-    T = TypeVar('T', bound='Base')
-
     @classmethod
     def save_to_file(cls, list_objs: List[T] = []):
         """
@@ -120,7 +153,7 @@ class Base:
             file.write(Base.to_json_string(dictionaries))
 
     @classmethod
-    def create(cls, **dictionary: Dict[str, int]):
+    def create(cls: Type[T], **dictionary: Dict[str, int]):
         """
             Create an instance of the class with attributes
             specified in the dictionary.
@@ -194,3 +227,44 @@ class Base:
             json_str = file.read()
         dicts = cls.from_json_string(json_str)
         return [cls.create(**dic) for dic in dicts]
+
+    @classmethod
+    def save_to_file_csv(cls: Type[T], list_objs: List[T]):
+        """
+        Save a list of instances to a CSV file.
+
+        This class method saves a list of instances to a CSV file.
+        The instances should inherit from the Base class.
+        The CSV file is named after the class.
+
+        Args:
+            cls (Type[T]): The class type.
+            list_objs (List[T]):
+                A list of instances to be saved to the CSV file.
+
+        Raises:
+            TypeError: If list_objs is not a list
+            or contains instances that do not inherit from Base.
+        """
+
+        if type(list_objs) is not list or not all(
+            [Base.is_indirectly_Base(obj) for obj in list_objs]
+        ):
+            raise TypeError(
+                "@list_objs: list of instances who inherits of Base"
+            )
+
+        cls_name = cls.__name__
+        file_name = cls.__name__ + ".csv"
+
+        common = ["id", "x", "y"]
+        special_keys =\
+            ["width", "height"] if cls_name == "Rectangle" else ["size"]
+        field_names = [common[0], *special_keys, *common[1:]]
+
+        data = [obj.to_dictionary() for obj in list_objs]
+
+        with open(file_name, 'w', encoding="utf-8", newline="") as csv_file:
+            writer = csv.DictWriter(csv_file, fieldnames=field_names)
+            writer.writeheader()
+            writer.writerows(data)
