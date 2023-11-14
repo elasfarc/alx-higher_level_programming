@@ -182,6 +182,31 @@ class Test_Base(unittest.TestCase):
         ]
         mock_open().write.assert_has_calls(calls)
 
+    @patch("builtins.open", new_callable=mock_open)
+    def test_save_csv_empty_list(self, mocked_open):
+        Rectangle.save_to_file_csv()
+
+        mocked_open.assert_called_once_with(
+            "Rectangle.csv", 'w', encoding="utf-8", newline=''
+        )
+        mocked_open().write.assert_called_once_with(
+            'id,width,height,x,y\r\n'
+        )
+
+    def test_asave_csv_invalid_args(self):
+        with self.assertRaises(TypeError):
+            Rectangle.save_to_file_csv("")
+
+        with self.assertRaises(TypeError):
+            Rectangle.save_to_file_csv([[1], [2], [3]])
+
+        with self.assertRaises(TypeError) as base_err:
+            Base.save_to_file_csv()
+        self.assertEqual(
+            str(base_err.exception),
+            "only inherited classes from Base allowed"
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

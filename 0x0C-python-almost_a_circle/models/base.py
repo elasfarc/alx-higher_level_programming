@@ -229,7 +229,7 @@ class Base:
         return [cls.create(**dic) for dic in dicts]
 
     @classmethod
-    def save_to_file_csv(cls: Type[T], list_objs: List[T]):
+    def save_to_file_csv(cls: Type[T], list_objs: List[T] = []):
         """
         Save a list of instances to a CSV file.
 
@@ -255,6 +255,10 @@ class Base:
             )
 
         cls_name = cls.__name__
+
+        if cls_name == Base.__name__:
+            raise TypeError("only inherited classes from Base allowed")
+
         file_name = cls.__name__ + ".csv"
 
         common = ["id", "x", "y"]
