@@ -1,17 +1,15 @@
 #!/usr/bin/python3
-""" Check """
 from models.base import Base
+from models.rectangle import Rectangle
+from models.square import Square
 
-list_dictionaries = None
-rjson = Base.to_json_string(list_dictionaries)
-rjson_expected = "[]"
+if __name__ == "__main__":
 
-if rjson is None:
-    print("to_json_string is not returning a string")
-    exit(1)
+    list_rectangles = [
+        Rectangle(100, 40),
+        Rectangle(90, 110, 30, 10),
+        Rectangle(20, 25, 110, 80)
+    ]
+    list_squares = [Square(35), Square(15, 70, 50), Square(80, 30, 70)]
 
-if rjson != rjson_expected:
-    print("to_json_string on {} must return {}: {}".format(list_dictionaries, rjson_expected, rjson))
-    exit(1)
-
-print("OK", end="")
+    Base.draw(list_rectangles, list_squares)

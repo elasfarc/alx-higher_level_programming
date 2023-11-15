@@ -4,7 +4,9 @@ Module containing the Base class.
 """
 import json
 import csv
+from operator import itemgetter
 from os import path
+from turtle import Turtle
 from typing import Dict, List, Protocol, Type, TypeVar, Union
 
 
@@ -279,6 +281,16 @@ class Base:
 
     @classmethod
     def load_from_file_csv(cls):
+        """
+        Load instances from a CSV file and create a list.
+
+        This class method reads data from a CSV file named after the class and
+        creates instances using the 'create' method.
+
+        Returns:
+            List['Base']: A list of instances created from the CSV file.
+
+        """
         file_name = cls.__name__ + ".csv"
         if not path.exists(file_name):
             return []
@@ -289,3 +301,98 @@ class Base:
                 cls.create(**{k: int(v) for (k, v) in row.items()})
                 for row in reader
             ]
+
+    @staticmethod
+    def draw(list_rectangles: List[T] = [], list_squares: List[T] = []):
+        """
+        Draw rectangles and squares using Turtle graphics.
+
+        This static method uses the Turtle module to draw rectangles
+        and squares based on the provided lists of instances.
+
+        Args:
+            list_rectangles (List['Base']): A list of Rectangle instances
+                to draw.
+            list_squares (List['Base']): A list of Square instances to draw.
+
+        Raises:
+            TypeError: If the input lists are not valid.
+        """
+        if (
+            not all(
+                type(lst) is list for lst in [list_squares, list_rectangles]
+            )
+            or not all(
+                rect.__class__.__name__ == "Rectangle" for
+                rect in list_rectangles
+            )
+            or not all(
+                sq.__class__.__name__ == "Square" for sq in list_squares
+            )
+        ):
+            raise TypeError("@list_squares, @list_rectangles")
+
+        t = Turtle()
+        t.screen.bgcolor("#C8A5F9")
+        t.width(5)
+
+        for shape in [*list_rectangles, *list_squares]:
+            is_rectangle = shape.__class__.__name__ == "Rectangle"
+            t.color("#D6F9A5") if is_rectangle else t.color("red")
+            Base.__draw_shape(t, shape)
+        t.screen.mainloop()
+
+    @staticmethod
+    def __draw_shape(t: Turtle, shape):
+        """
+        Draw a shape using Turtle graphics.
+
+        This static method draws a shape using Turtle graphics based on the
+        provided Turtle instance and shape.
+
+        Args:
+            t (Turtle): The Turtle instance to use for drawing.
+            shape ('Base'): The shape instance to draw.
+        """
+        t.up()
+        t.goto(shape.x, shape.y)
+        t.down()
+        if shape.__class__.__name__ == "Rectangle":
+            Base.__draw_rectangle(t, shape.width, shape.height)
+        else:
+            Base.__draw_square(t, shape.size)
+
+    @staticmethod
+    def __draw_rectangle(t: Turtle, width: int, height: int):
+        """
+        Draw a rectangle using Turtle graphics.
+
+        This static method draws a rectangle using Turtle graphics based on the
+        provided Turtle instance, width, and height.
+
+        Args:
+            t (Turtle): The Turtle instance to use for drawing.
+            width (int): The width of the rectangle.
+            height (int): The height of the rectangle.
+        """
+        for _ in range(2):
+            t.forward(width)
+            t.left(90)
+            t.forward(height)
+            t.left(90)
+
+    @staticmethod
+    def __draw_square(t: Turtle, size: int):
+        """
+        Draw a square using Turtle graphics.
+
+        This static method draws a square using Turtle graphics based on the
+        provided Turtle instance and size.
+
+        Args:
+            t (Turtle): The Turtle instance to use for drawing.
+            size (int): The size of the square.
+        """
+        for _ in range(4):
+            t.forward(size)
+            t.left(90)
