@@ -1,3 +1,4 @@
+import csv
 import unittest
 from unittest.mock import patch, mock_open, call
 import json
@@ -206,6 +207,28 @@ class Test_Base(unittest.TestCase):
             str(base_err.exception),
             "only inherited classes from Base allowed"
         )
+
+    @patch("os.path.exists", return_value=True)
+    @patch(
+        "builtins.open",
+        new_callable=mock_open,
+        read_data="id,width,height,x,y\r\n1,10,7,2,8\r\n2,2,4,0,0"
+    )
+    def test_load_from_file_csv(self, mock_open, mock_exisit):
+        expected = [Rectangle(10, 7, 2, 8), Rectangle(2, 4)]
+
+        result = Rectangle.load_from_file_csv()
+
+        mock_exisit.assert_called_once_with("Rectangle.csv")
+        mock_open.assert_called_once_with(
+            "Rectangle.csv", 'r', encoding="utf-8", newline=''
+        )
+
+        self.assertTrue(
+            all([(rect.__class__ is Rectangle) for rect in result])
+        )
+        for i, rect in enumerate(result):
+            self.assertEqual(str(rect), str(expected[i]))
 
 
 if __name__ == "__main__":

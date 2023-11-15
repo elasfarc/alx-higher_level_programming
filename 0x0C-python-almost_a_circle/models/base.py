@@ -153,7 +153,7 @@ class Base:
             file.write(Base.to_json_string(dictionaries))
 
     @classmethod
-    def create(cls: Type[T], **dictionary: Dict[str, int]):
+    def create(cls: Type[T], **dictionary: int):
         """
             Create an instance of the class with attributes
             specified in the dictionary.
@@ -272,3 +272,16 @@ class Base:
             writer = csv.DictWriter(csv_file, fieldnames=field_names)
             writer.writeheader()
             writer.writerows(data)
+
+    @classmethod
+    def load_from_file_csv(cls):
+        file_name = cls.__name__ + ".csv"
+        if not path.exists(file_name):
+            return []
+
+        with open(file_name, 'r', encoding="utf-8", newline='') as csv_file:
+            reader = csv.DictReader(csv_file)
+            return [
+                cls.create(**{k: int(v) for (k, v) in row.items()})
+                for row in reader
+            ]
