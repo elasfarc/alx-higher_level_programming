@@ -5,7 +5,7 @@ Module containing the Base class.
 import json
 import csv
 from os import path
-from typing import Dict, List, Protocol, Type, TypeVar
+from typing import Dict, List, Protocol, Type, TypeVar, Union
 
 
 class DirivedFromBase_Virtual(Protocol):
@@ -120,7 +120,7 @@ class Base:
         return isinstance(obj, Base) and obj.__class__ is not Base
 
     @classmethod
-    def save_to_file(cls, list_objs: List[T] = []):
+    def save_to_file(cls, list_objs: Union[List[T], None] = []):
         """
         Saves a list of instances of subclasses of Base to a JSON file.
 
@@ -138,6 +138,8 @@ class Base:
                 containing the list of dictionaries representing the
                 attributes of each Base instance.
         """
+        if list_objs is None:
+            list_objs = []
 
         if type(list_objs) is not list or not all(
             [Base.is_indirectly_Base(element) for element in list_objs]
