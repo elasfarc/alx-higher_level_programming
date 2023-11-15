@@ -67,7 +67,7 @@ class Base:
             self.id = Base.__nb_objects
 
     @staticmethod
-    def to_json_string(list_dictionaries: List[dict] = []) -> str:
+    def to_json_string(list_dictionaries: Union[List[dict], None] = []) -> str:
         """
         Converts a list of dictionaries to a JSON string.
 
@@ -82,6 +82,8 @@ class Base:
             Returns:
                 str: A JSON string representation of the list of dictionaries.
         """
+        if list_dictionaries is None:
+            list_dictionaries = []
         if type(list_dictionaries) is not list or not all(
             [type(element) is dict for element in list_dictionaries]
         ):
