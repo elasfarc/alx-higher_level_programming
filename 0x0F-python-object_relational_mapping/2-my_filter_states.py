@@ -17,9 +17,9 @@ if __name__ == "__main__":
     cur = db.cursor()
     cur.execute("""
       SELECT * from states
-      WHERE name like %s
+      WHERE name like '{}'
       ORDER BY id
-      """, (search,))
+      """.format(search))
     results = cur.fetchall()
     for res in results:
         print(res)
