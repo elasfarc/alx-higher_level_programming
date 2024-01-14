@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 """A script that lists all states from the database hbtn_0e_0_usa
   with a name starting with N
   sorted in ascending order by states.id
