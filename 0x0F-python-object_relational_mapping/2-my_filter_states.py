@@ -17,7 +17,7 @@ if __name__ == "__main__":
     cur = db.cursor()
     cur.execute("""
       SELECT * from states
-      WHERE name like '{}'
+      WHERE name like BINARY '{}'
       ORDER BY id
       """.format(search))
     results = cur.fetchall()
