@@ -2,4 +2,4 @@
 -- The database name will be passed as an argument of the mysql command
 
 -- select all fields from the table first_table
-SELECT * from first_table;
+SELECT * FROM first_table;
